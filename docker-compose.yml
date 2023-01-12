@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  web: &rails
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        - PORT=${PORT}
+        - PORT_WEB=${PORT_WEB}
+        - RAILS_ENV=${RAILS_ENV}
+    # command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
+    volumes:
+      - .:/app:delegated
+      - bundle:/usr/local/bundle
+      - ignore:/app/node_modules
+    tmpfs: /app/tmp
+    depends_on:
+      - db
+    env_file:
+      - .env
+    stdin_open: true
+    tty: true
+    ports:
+      - "3000:3000"
+      - "3035:3035"
+
+  db:
+    image: nouchka/sqlite3:latest
+    volumes:
+      - db:/app/db
+    stdin_open: true
+    tty: true
+
+volumes:
+  bundle:
+  db:
+  ignore:
+  gems:
+    driver: local

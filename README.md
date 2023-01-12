@@ -42,6 +42,45 @@ bin/rails db:migrate
 bin/rails server
 ```
 
+### Docker
+
+* Install and run [Docker Compose](https://www.docker.com/)
+* Setup environment
+```bash
+cp .env.example .env
+```
+* Run Substrate front-end from a Docker container and follow the terminal log instructions.
+```bash
+./docker-dev.sh
+```
+
+* Builds project images
+```
+docker-compose build
+```
+
+* Boots up the app
+```
+docker-compose up
+```
+
+* Create databases.
+```
+docker-compose run web rake db:create
+```
+
+* Run migrations
+```
+docker-compose run web rake db:migrate
+```
+
+* Enter Docker shell
+```
+docker exec -it $CONTAINER_ID /bin/sh
+```
+
+* Rails app should now be available at: http://localhost:3000
+
 ### How it works
 
 ##### Model: `User`
