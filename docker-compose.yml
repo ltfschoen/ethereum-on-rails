@@ -3,7 +3,7 @@ services:
   web: &rails
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       args:
         - PORT=${PORT}
         - PORT_WEB=${PORT_WEB}

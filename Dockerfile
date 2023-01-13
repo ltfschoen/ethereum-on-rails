@@ -19,10 +19,9 @@ ENV RAILS_LOG_TO_STDOUT=true
 
 # Prepare working directory.
 WORKDIR ${APP_PATH}
-COPY . ${APP_PATH}
 
 # Install packages.
-RUN apt update -qq && \
+RUN apt-get update -qq && \
     mkdir -p /app/.nvm && export NVM_DIR="${APP_PATH}/.nvm" && \
     wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash && \
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
@@ -30,20 +29,23 @@ RUN apt update -qq && \
     nvm install stable && \
     nvm use stable && \
     node --version && \
-    npm install -g yarn corepack && \
-    yarn --version
-RUN apt-get install -y rubygems sqlite3 libsqlite3-dev vim git && \
+    npm install -g yarn && \
+    yarn --version && \
+    apt-get install -y rubygems sqlite3 libsqlite3-dev vim git
     # gem update --system && \
-    gem install bundler -v 2.3.7 && \
+    # gem install bundler -v 2.3.7 && \
     # gem install rails && \
-    bundle install --jobs 20 && \
-    bin/rails assets:precompile && \
-    bin/rails webpacker:install && \
-    bin/rails db:migrate RAILS_ENV=${RAILS_ENV}
+    # bundle install --jobs 20 && \
+    # bin/rails assets:precompile && \
+    # bin/rails webpacker:install && \
+    # bin/rails db:migrate RAILS_ENV=${RAILS_ENV}
+    # bin/rails db:prepare
     # yarn
 # RUN rm -f tmp/pids/server.pid && \
 #     apt-get clean && \
 #     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+COPY . ${APP_PATH}
 
 EXPOSE ${PORT}
 EXPOSE ${PORT_WEB}

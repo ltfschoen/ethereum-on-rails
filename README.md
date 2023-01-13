@@ -51,7 +51,7 @@ cp .env.example .env
 ```
 * Run Substrate front-end from a Docker container and follow the terminal log instructions.
 ```bash
-./docker-dev.sh
+./docker.sh
 ```
 
 * Builds project images
@@ -76,6 +76,7 @@ docker-compose run web rake db:migrate
 
 * Enter Docker shell
 ```
+CONTAINER_ID=$(docker ps -a --no-trunc -q | head -n 1)
 docker exec -it $CONTAINER_ID /bin/sh
 ```
 
